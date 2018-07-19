@@ -24,7 +24,7 @@ public class Account {
 	private String name;
 
 	@Column(name = "email_address")
-	private String emailAdress;
+	private String emailAddress;
 
 	@Column(name = "time_zone")
 	private String timeZone;
@@ -36,10 +36,18 @@ public class Account {
 
 	}
 
-	public Account(String name, String emailAdress, String timeZone) {
+	public Account(String name, String emailAddress, String timeZone) {
 		this.name = name;
-		this.emailAdress = emailAdress;
+		this.emailAddress = emailAddress;
 		this.timeZone = timeZone;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -50,12 +58,12 @@ public class Account {
 		this.name = name;
 	}
 
-	public String getEmailAdress() {
-		return emailAdress;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
 
-	public void setEmailAdress(String emailAdress) {
-		this.emailAdress = emailAdress;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 	public String getTimeZone() {
@@ -77,7 +85,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", name=" + name + ", emailAdress=" + emailAdress + ", timeZone=" + timeZone + "]";
+		return "Account [id=" + id + ", name=" + name + ", emailAddress=" + emailAddress + ", timeZone=" + timeZone + "]";
 	}
 
 	

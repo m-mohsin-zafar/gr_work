@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -38,8 +39,11 @@ public class Contact {
 	@ManyToOne
 	private Account account;
 	
-	// Need to Link with Address in case of many to one relation.
+	@OneToOne(mappedBy= "contact")
+	private ContactAddress contactAddress;
 	
+	// Need to Link with Address in case of many to one relation.
+
 	public Contact() {
 		
 	}
@@ -53,6 +57,16 @@ public class Contact {
 		this.phoneNumber = phoneNumber;
 		this.status = status;
 		this.account = account;
+	}
+
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -109,6 +123,14 @@ public class Contact {
 
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+	
+	public ContactAddress getContactAddress() {
+		return contactAddress;
+	}
+
+	public void setContactAddress(ContactAddress contactAddress) {
+		this.contactAddress = contactAddress;
 	}
 
 	@Override

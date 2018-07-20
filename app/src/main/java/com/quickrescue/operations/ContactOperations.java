@@ -5,16 +5,26 @@ import java.util.List;
 import com.quickrescue.entities.Contact;
 import com.quickrescue.models.ManageContact;
 
+/*
+ * Description: 
+ * This class is for manual test purposes and contains access to 
+ * CRUD operations that are performed in "ManageContact" Class
+ * 
+ */
+
 public class ContactOperations extends Operations {
 
 	private ManageContact manageContact = new ManageContact();
 
+	/*
+	 * Input Format (String firstName, String lastName, String emailAddress, String
+	 * gender, String phoneNumber, String status, int accountId, String
+	 * streetAddress, String city, String state, String country)
+	 * 
+	 */
 	@Override
 	public void insertOperation() {
-		//manageContact.addContact("Mohsin", "Zafar", "abc@gmail.com", "Male", "123456", "Active", 2, "ABCD - DEF -123",
-		//		"SGD", "PUN", "PK");
-		
-		manageContact.addContact("M", "Z", "mmz@gmail.com", "Male", "123456", "InActive", 1, "ABCD - xyz 3454",
+		manageContact.addContact("Mohsin", "Zafar", "abc@gmail.com", "Male", "123456", "Active", 2, "ABCD - DEF -123",
 				"SGD", "PUN", "PK");
 	}
 
@@ -33,14 +43,25 @@ public class ContactOperations extends Operations {
 					+ contact.getAccount().getName());
 		}
 	}
-	
+
+	/*
+	 * Input Format
+	 * (int id, String firstName, String lastName, String emailAddress, String gender, String phoneNumber,
+	 * String status, int accountId, String streetAddress, String city, String state, String country)
+	 * 
+	 */
+
 	@Override
 	public void updateOperation() {
-		manageContact.updateContact(2, "Hassan", "A", "B", "C", "D", "Active", 3, "ST-567", "X", "Y", "IN");
+		manageContact.updateContact(1, "Hassan", "Ali", "B", "C", "D", "Active", 3, "ST-567", "X", "Y", "IN");
 	}
-	
+
+	/*
+	 * Input Format
+	 * (int id)
+	 */
 	@Override
 	public void deleteOperation() {
-		manageContact.deleteContact(2);
+		manageContact.deleteContact(1);
 	}
 }

@@ -20,13 +20,13 @@ public class Account {
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "name")
+	@Column(name = "name", length=50)
 	private String name;
 
-	@Column(name = "email_address")
+	@Column(name = "email_address", length=60)
 	private String emailAddress;
 
-	@Column(name = "time_zone")
+	@Column(name = "time_zone", length=8)
 	private String timeZone;
 	
 	@OneToMany(mappedBy="account")

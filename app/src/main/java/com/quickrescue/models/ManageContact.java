@@ -13,7 +13,7 @@ import com.quickrescue.interfaces.IManageContact;
 
 public class ManageContact implements IManageContact {
 
-	private TransactionConfigurations tc;// = new TransactionConfigurations();
+	private TransactionConfigurations tc;
 	private Transaction tx = null;
 	private Contact contact = null;
 	private ContactAddress contactAddress = null;
@@ -24,17 +24,27 @@ public class ManageContact implements IManageContact {
 		tc = new TransactionConfigurations();
 
 		try {
-
+			
+			tc.endSession();
 			tx = tc.getTransaction();
 
 			Account account = (Account) tc.getSessionObject().get(Account.class, accountId);
 
-			contact = new Contact(firstName, lastName, emailAddress, gender, phoneNumber, status, account);
-			contactAddress = new ContactAddress(streetAddress, city, state, country, contact);
+			if(account != null) {
+				
+				if(!firstName.isEmpty() && !lastName.isEmpty() && !emailAddress.isEmpty() && !gender.isEmpty() && !phoneNumber.isEmpty() &&
+						&& !status.isEmpty() && (status.equals("Active") || status.equals("InActive")) && !streetAddress.isEmpty() && !city.isEmpty() && !state.isEmpty() && !country.isEmpty()) {
+					
+					contact = new Contact(firstName, lastName, emailAddress, gender, phoneNumber, status, account);
+					contactAddress = new ContactAddress(streetAddress, city, state, country, contact);
 
-			tc.getSessionObject().save(contact);
-			tc.getSessionObject().save(contactAddress);
-			tx.commit();
+					tc.getSessionObject().save(contact);
+					tc.getSessionObject().save(contactAddress);
+					tx.commit();
+					
+				}
+			}
+			
 		} catch (HibernateException e) {
 			if (tx != null)
 				tx.rollback();
@@ -80,88 +90,91 @@ public class ManageContact implements IManageContact {
 		tc = new TransactionConfigurations();
 
 		try {
-			tc.endSession();
 
+			tc.endSession();
 			tx = tc.getTransaction();
 			tc.getSessionObject();
 
 			Contact contact = (Contact) tc.getSessionObject().get(Contact.class, id);
-
 			Contact original = contact;
 
-			if (!firstName.isEmpty()) {
-				contact.setFirstName(firstName);
-			} else {
-				contact.setFirstName(original.getFirstName());
+			if (contact != null) {
+
+				if (!firstName.isEmpty()) {
+					contact.setFirstName(firstName);
+				} else {
+					contact.setFirstName(original.getFirstName());
+				}
+
+				if (!lastName.isEmpty()) {
+					contact.setLastName(lastName);
+				} else {
+					contact.setLastName(original.getLastName());
+				}
+
+				if (!emailAddress.isEmpty()) {
+					contact.setEmailAddress(emailAddress);
+				} else {
+					contact.setEmailAddress(original.getEmailAddress());
+				}
+
+				if (!gender.isEmpty()) {
+					contact.setGender(gender);
+				} else {
+					contact.setGender(original.getGender());
+				}
+
+				if (!phoneNumber.isEmpty()) {
+					contact.setPhoneNumber(phoneNumber);
+				} else {
+					contact.setPhoneNumber(original.getPhoneNumber());
+				}
+
+				if (!status.isEmpty()) {
+					contact.setStatus(status);
+				} else {
+					contact.setStatus(original.getStatus());
+				}
+
+				Account account = (Account) tc.getSessionObject().get(Account.class, accountId);
+				if (account != null) {
+					contact.setAccount(account);
+				} else {
+					contact.setAccount(null);
+				}
+
+				ContactAddress contactAddress = contact.getContactAddress();
+
+				if (!streetAddress.isEmpty()) {
+					contactAddress.setStreetAddress(streetAddress);
+				} else {
+					contactAddress.setStreetAddress(original.getContactAddress().getStreetAddress());
+				}
+
+				if (!city.isEmpty()) {
+					contactAddress.setCity(city);
+				} else {
+					contactAddress.setCity(original.getContactAddress().getCity());
+				}
+
+				if (!state.isEmpty()) {
+					contactAddress.setState(state);
+				} else {
+					contactAddress.setState(original.getContactAddress().getState());
+				}
+
+				if (!country.isEmpty()) {
+					contactAddress.setCountry(country);
+				} else {
+					contactAddress.setCountry(original.getContactAddress().getCountry());
+				}
+
+				tc.getSessionObject().update(contact);
+				tc.getSessionObject().update(contactAddress);
+
+				tx.commit();
+
 			}
-
-			if (!lastName.isEmpty()) {
-				contact.setLastName(lastName);
-			} else {
-				contact.setLastName(original.getLastName());
-			}
-
-			if (!emailAddress.isEmpty()) {
-				contact.setEmailAddress(emailAddress);
-			} else {
-				contact.setEmailAddress(original.getEmailAddress());
-			}
-
-			if (!gender.isEmpty()) {
-				contact.setGender(gender);
-			} else {
-				contact.setGender(original.getGender());
-			}
-
-			if (!phoneNumber.isEmpty()) {
-				contact.setPhoneNumber(phoneNumber);
-			} else {
-				contact.setPhoneNumber(original.getPhoneNumber());
-			}
-
-			if (!status.isEmpty()) {
-				contact.setStatus(status);
-			} else {
-				contact.setStatus(original.getStatus());
-			}
-
-			Account account = (Account) tc.getSessionObject().get(Account.class, accountId);
-			if (account != null) {
-				contact.setAccount(account);
-			} else {
-				contact.setAccount(null);
-			}
-
-			ContactAddress contactAddress = contact.getContactAddress();
-
-			if (!streetAddress.isEmpty()) {
-				contactAddress.setStreetAddress(streetAddress);
-			} else {
-				contactAddress.setStreetAddress(original.getContactAddress().getStreetAddress());
-			}
-
-			if (!city.isEmpty()) {
-				contactAddress.setCity(city);
-			} else {
-				contactAddress.setCity(original.getContactAddress().getCity());
-			}
-
-			if (!state.isEmpty()) {
-				contactAddress.setState(state);
-			} else {
-				contactAddress.setState(original.getContactAddress().getState());
-			}
-
-			if (!country.isEmpty()) {
-				contactAddress.setCountry(country);
-			} else {
-				contactAddress.setCountry(original.getContactAddress().getCountry());
-			}
-
-			tc.getSessionObject().update(contact);
-			tc.getSessionObject().update(contactAddress);
-
-			tx.commit();
 
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -170,7 +183,10 @@ public class ManageContact implements IManageContact {
 		} finally {
 			tc.getSessionObject().close();
 		}
-		contact = (Contact) tc.getSessionObject().get(Contact.class, id);
+		
+		if (contact != null) {
+			contact = (Contact) tc.getSessionObject().get(Contact.class, id);
+		}
 		return contact;
 	}
 
@@ -179,8 +195,8 @@ public class ManageContact implements IManageContact {
 		tc = new TransactionConfigurations();
 
 		try {
+			
 			tc.endSession();
-
 			tx = tc.getTransaction();
 			tc.getSessionObject();
 

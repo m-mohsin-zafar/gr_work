@@ -139,7 +139,7 @@ public class ManageContactTest extends TestCase {
 
 	private Account addDummyAccount() {
 		return manageAccount.addAccount("QRescue", "con@qr.org", "GMT +5");
-	}
+	} 
 
 	private Contact addDummyContact() {
 		return manageContact.addContact("Hassan", "Ali", "hali@gmail.com", "Male", "03123456789", "Active", 1, "H-1", "Sargodha", "Punjab", "Pakistan");

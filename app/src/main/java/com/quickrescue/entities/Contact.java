@@ -19,22 +19,24 @@ public class Contact {
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "first_name")
+	@Column(name = "first_name", length=25)
 	private String firstName;
 	
-	@Column(name = "last_name")
+	@Column(name = "last_name", length=25)
 	private String lastName;
 	
-	@Column(name = "email_address")
+	@Column(name = "email_address",length=60)
 	private String emailAddress;
 	
-	@Column(name = "gender")
+	@Column(name = "gender", length=6)
 	private String gender;
 	
-	@Column(name = "phone_number")
+	//Format = +923007612552
+	@Column(name = "phone_number", length=13)
 	private String phoneNumber;
 	
-	@Column(name = "status")
+	//Format = Active or InAcitve
+	@Column(name = "status", columnDefinition="InActive")
 	private String status;
 	
 	@ManyToOne
@@ -43,8 +45,6 @@ public class Contact {
 	@OneToOne(mappedBy= "contact",fetch=FetchType.EAGER)
 	private ContactAddress contactAddress;
 	
-	// Need to Link with Address in case of many to one relation.
-
 	public Contact() {
 		
 	}

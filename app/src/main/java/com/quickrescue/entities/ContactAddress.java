@@ -16,26 +16,21 @@ public class ContactAddress {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
-	@Column(name = "street_address")
+
+	@Column(name = "street_address", length = 50)
 	private String streetAddress;
 
-	@Column(name = "city")
+	@Column(name = "city", length = 30)
 	private String city;
 
-	@Column(name = "state")
+	@Column(name = "state", length = 30)
 	private String state;
 
-	@Column(name = "country")
+	@Column(name = "country", length = 30)
 	private String country;
 
-//	If we assume each Contact has only 'one' address
 	@OneToOne
 	private Contact contact;
-
-//  If we assume each Contact can have 'multiple' addresses
-//	@ManyToOne
-//	private List<Contact> contacts = new ArrayList<Contact>();
 
 	public ContactAddress() {
 
@@ -88,15 +83,6 @@ public class ContactAddress {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
-
-//  For a many to one relation
-//	public List<Contact> getContact() {
-//		return contact;
-//	}
-//	
-//	public void setContact(List<Contact> contact) {
-//		this.contact = contact;
-//	}
 
 	@Override
 	public String toString() {

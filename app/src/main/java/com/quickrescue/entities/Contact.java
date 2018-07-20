@@ -2,6 +2,7 @@ package com.quickrescue.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,7 +40,7 @@ public class Contact {
 	@ManyToOne
 	private Account account;
 	
-	@OneToOne(mappedBy= "contact")
+	@OneToOne(mappedBy= "contact",fetch=FetchType.EAGER)
 	private ContactAddress contactAddress;
 	
 	// Need to Link with Address in case of many to one relation.

@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import com.quickrescue.configurations.TransactionConfigurations;
 import com.quickrescue.entities.Account;
+import com.quickrescue.entities.Contact;
 import com.quickrescue.interfaces.IManageAccount;
 
 public class ManageAccount implements IManageAccount {
@@ -16,7 +16,7 @@ public class ManageAccount implements IManageAccount {
 	private Transaction tx = null;
 	private Account account = null;
 
-	public void addAccount(String name, String emailAddress, String timeZone) {
+	public Account addAccount(String name, String emailAddress, String timeZone) {
 		
 		tc = new TransactionConfigurations();
 		
@@ -33,8 +33,8 @@ public class ManageAccount implements IManageAccount {
 			e.printStackTrace();
 		} finally {
 			tc.getSessionObject().close();
-		}
-
+		} 
+		return account;
 	}
 
 	public List<Account> viewAllAccounts() {
@@ -64,7 +64,7 @@ public class ManageAccount implements IManageAccount {
 		return accounts;
 	}
 
-	public void updateAccount(int id, String name, String emailAddress, String timeZone) {
+	public Account updateAccount(int id, String name, String emailAddress, String timeZone) {
 		
 		tc = new TransactionConfigurations();
 		
@@ -107,11 +107,42 @@ public class ManageAccount implements IManageAccount {
 		} finally {
 			tc.getSessionObject().close();
 		}
-		System.out.println("===========GOOD SHOT==========");
+		
+		account = (Account) tc.getSessionObject().get(Account.class, id);
+		return account;
 	}
 
 	public void deleteAccount(int id) {
+		
+		tc = new TransactionConfigurations();
 
+		try {
+			tc.endSession();
+
+			tx = tc.getTransaction();
+			tc.getSessionObject();
+
+			Account account = (Account) tc.getSessionObject().get(Account.class, id);
+			
+			if (account != null) {
+				List<Contact> contacts = account.getContacts();
+				if (contacts != null) {
+					ManageContact manageContact = new ManageContact();
+					for (Contact cont : contacts) {
+						manageContact.deleteContact(cont.getId());
+					}
+				}
+				tc.getSessionObject().delete(account);
+				tx.commit();
+			}
+			
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			tc.getSessionObject().close();
+		}
 	}
 
 }

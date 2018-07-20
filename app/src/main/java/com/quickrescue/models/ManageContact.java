@@ -18,7 +18,7 @@ public class ManageContact implements IManageContact {
 	private Contact contact = null;
 	private ContactAddress contactAddress = null;
 
-	public void addContact(String firstName, String lastName, String emailAddress, String gender, String phoneNumber,
+	public Contact addContact(String firstName, String lastName, String emailAddress, String gender, String phoneNumber,
 			String status, int accountId, String streetAddress, String city, String state, String country) {
 
 		tc = new TransactionConfigurations();
@@ -42,7 +42,8 @@ public class ManageContact implements IManageContact {
 		} finally {
 			tc.getSessionObject().close();
 		}
-		System.out.println("Awesome.....!!!!");
+
+		return contact;
 	}
 
 	public List<Contact> viewContacts() {
@@ -69,11 +70,10 @@ public class ManageContact implements IManageContact {
 			tc.getSessionObject().close();
 		}
 
-		System.out.println("Oh. Boy.....!!!!");
 		return contacts;
 	}
 
-	public void updateContact(int id, String firstName, String lastName, String emailAddress, String gender,
+	public Contact updateContact(int id, String firstName, String lastName, String emailAddress, String gender,
 			String phoneNumber, String status, int accountId, String streetAddress, String city, String state,
 			String country) {
 
@@ -132,7 +132,6 @@ public class ManageContact implements IManageContact {
 				contact.setAccount(null);
 			}
 
-//			ContactAddress contactAddress = (ContactAddress) tc.getSessionObject().get(ContactAddress.class, id);
 			ContactAddress contactAddress = contact.getContactAddress();
 
 			if (!streetAddress.isEmpty()) {
@@ -171,10 +170,38 @@ public class ManageContact implements IManageContact {
 		} finally {
 			tc.getSessionObject().close();
 		}
-		System.out.println("----------GOOD SHOT----------");
+		contact = (Contact) tc.getSessionObject().get(Contact.class, id);
+		return contact;
 	}
 
 	public void deleteContact(int id) {
+
+		tc = new TransactionConfigurations();
+
+		try {
+			tc.endSession();
+
+			tx = tc.getTransaction();
+			tc.getSessionObject();
+
+			Contact contact = (Contact) tc.getSessionObject().get(Contact.class, id);
+
+			if (contact != null) {
+				ContactAddress contactAddress = contact.getContactAddress();
+				if (contactAddress != null) {
+					tc.getSessionObject().delete(contactAddress);
+				}
+				tc.getSessionObject().delete(contact);
+				tx.commit();
+			}
+
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			tc.getSessionObject().close();
+		}
 
 	}
 

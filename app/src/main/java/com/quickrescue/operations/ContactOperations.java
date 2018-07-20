@@ -5,10 +5,11 @@ import java.util.List;
 import com.quickrescue.entities.Contact;
 import com.quickrescue.models.ManageContact;
 
-public class ContactOperations {
+public class ContactOperations extends Operations {
 
 	private ManageContact manageContact = new ManageContact();
 
+	@Override
 	public void insertOperation() {
 		//manageContact.addContact("Mohsin", "Zafar", "abc@gmail.com", "Male", "123456", "Active", 2, "ABCD - DEF -123",
 		//		"SGD", "PUN", "PK");
@@ -17,6 +18,7 @@ public class ContactOperations {
 				"SGD", "PUN", "PK");
 	}
 
+	@Override
 	public void viewAllOperation() {
 		List<Contact> contacts = manageContact.viewContacts();
 		System.out.println("ID " + "\tFirst Name " + "\tLast Name " + "\tGender " + "\tPhone Number " + "\tStatus "
@@ -32,7 +34,13 @@ public class ContactOperations {
 		}
 	}
 	
+	@Override
 	public void updateOperation() {
 		manageContact.updateContact(2, "Hassan", "A", "B", "C", "D", "Active", 3, "ST-567", "X", "Y", "IN");
+	}
+	
+	@Override
+	public void deleteOperation() {
+		manageContact.deleteContact(2);
 	}
 }

@@ -59,18 +59,18 @@ public class App
     	Operations accountOperations = new AccountOperations();
     	accountOperations.insertOperation();
     	accountOperations.viewAllOperation();
-    	accountOperations.updateOperation();
-    	accountOperations.viewAllOperation();
-    	accountOperations.deleteOperation();
+//    	accountOperations.updateOperation();
+//    	accountOperations.viewAllOperation();
+//    	accountOperations.deleteOperation();
 
     	
     	
     	Operations contactOperations = new ContactOperations();
     	contactOperations.insertOperation();
     	contactOperations.viewAllOperation();
-    	contactOperations.updateOperation();
-    	contactOperations.viewAllOperation();
-    	contactOperations.deleteOperation();
+//    	contactOperations.updateOperation();
+//    	contactOperations.viewAllOperation();
+//    	contactOperations.deleteOperation();
     	
     	System.exit(0);
     }

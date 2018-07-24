@@ -24,7 +24,7 @@ public class ContactOperations extends Operations {
 	 */
 	@Override
 	public void insertOperation() {
-		manageContact.addContact("Mohsin", "Zafar", "abc@gmail.com", "Male", "123456", "Active", 2, "ABCD - DEF -123",
+		manageContact.addContact("Mohsin", "Zafar", "abc@gmail.com", "Male", "123456", "Active", 1, "ABCD - DEF -123",
 				"SGD", "PUN", "PK");
 	}
 

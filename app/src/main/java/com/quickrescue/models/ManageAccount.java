@@ -23,6 +23,7 @@ public class ManageAccount implements IManageAccount {
 		try {
 
 			tc.endSession();
+			
 
 			if (name != null && emailAddress != null && timeZone != null) {
 

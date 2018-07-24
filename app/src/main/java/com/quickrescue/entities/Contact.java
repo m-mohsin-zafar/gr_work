@@ -36,7 +36,7 @@ public class Contact {
 	private String phoneNumber;
 	
 	//Format = Active or InAcitve
-	@Column(name = "status", columnDefinition="InActive")
+	@Column(name = "status")
 	private String status;
 	
 	@ManyToOne

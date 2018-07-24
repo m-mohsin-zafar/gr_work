@@ -26,18 +26,18 @@ public class ManageContact implements IManageContact {
 		try {
 			
 			tc.endSession();
-			tx = tc.getTransaction();
 
 			Account account = (Account) tc.getSessionObject().get(Account.class, accountId);
 
 			if(account != null) {
 				
 				if(!firstName.isEmpty() && !lastName.isEmpty() && !emailAddress.isEmpty() && !gender.isEmpty() && !phoneNumber.isEmpty() &&
-						&& !status.isEmpty() && (status.equals("Active") || status.equals("InActive")) && !streetAddress.isEmpty() && !city.isEmpty() && !state.isEmpty() && !country.isEmpty()) {
+						!status.isEmpty() && (status.equals("Active") || status.equals("InActive")) && !streetAddress.isEmpty() && !city.isEmpty() && !state.isEmpty() && !country.isEmpty()) {
 					
 					contact = new Contact(firstName, lastName, emailAddress, gender, phoneNumber, status, account);
 					contactAddress = new ContactAddress(streetAddress, city, state, country, contact);
 
+					tx = tc.getTransaction();
 					tc.getSessionObject().save(contact);
 					tc.getSessionObject().save(contactAddress);
 					tx.commit();

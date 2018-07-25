@@ -15,25 +15,30 @@ public class ManageContact implements IManageContact {
 
 	private TransactionConfigurations tc;
 	private Transaction tx = null;
-	private Contact contact = null;
-	private ContactAddress contactAddress = null;
+	// private Contact contact = null;
+	// private ContactAddress contactAddress = null;
 
 	public Contact addContact(String firstName, String lastName, String emailAddress, String gender, String phoneNumber,
 			String status, int accountId, String streetAddress, String city, String state, String country) {
 
+		Contact contact = null;
+		ContactAddress contactAddress = null;
+
 		tc = new TransactionConfigurations();
 
 		try {
-			
+
 			tc.endSession();
 
 			Account account = (Account) tc.getSessionObject().get(Account.class, accountId);
 
-			if(account != null) {
-				
-				if(!firstName.isEmpty() && !lastName.isEmpty() && !emailAddress.isEmpty() && !gender.isEmpty() && !phoneNumber.isEmpty() &&
-						!status.isEmpty() && (status.equals("Active") || status.equals("InActive")) && !streetAddress.isEmpty() && !city.isEmpty() && !state.isEmpty() && !country.isEmpty()) {
-					
+			if (account != null) {
+
+				if (!firstName.isEmpty() && !lastName.isEmpty() && !emailAddress.isEmpty() && !gender.isEmpty()
+						&& !phoneNumber.isEmpty() && !status.isEmpty()
+						&& (status.equals("Active") || status.equals("InActive")) && !streetAddress.isEmpty()
+						&& !city.isEmpty() && !state.isEmpty() && !country.isEmpty()) {
+
 					contact = new Contact(firstName, lastName, emailAddress, gender, phoneNumber, status, account);
 					contactAddress = new ContactAddress(streetAddress, city, state, country, contact);
 
@@ -41,10 +46,10 @@ public class ManageContact implements IManageContact {
 					tc.getSessionObject().save(contact);
 					tc.getSessionObject().save(contactAddress);
 					tx.commit();
-					
+
 				}
 			}
-			
+
 		} catch (HibernateException e) {
 			if (tx != null)
 				tx.rollback();
@@ -53,6 +58,11 @@ public class ManageContact implements IManageContact {
 			tc.getSessionObject().close();
 		}
 
+		if (contact != null) {
+			if (contact.getContactAddress() == null) {
+				contact.setContactAddress(contactAddress);
+			}
+		}
 		return contact;
 	}
 
@@ -87,6 +97,9 @@ public class ManageContact implements IManageContact {
 			String phoneNumber, String status, int accountId, String streetAddress, String city, String state,
 			String country) {
 
+		Contact contact = null;
+		ContactAddress contactAddress = null;
+
 		tc = new TransactionConfigurations();
 
 		try {
@@ -95,7 +108,7 @@ public class ManageContact implements IManageContact {
 			tx = tc.getTransaction();
 			tc.getSessionObject();
 
-			Contact contact = (Contact) tc.getSessionObject().get(Contact.class, id);
+			contact = (Contact) tc.getSessionObject().get(Contact.class, id);
 			Contact original = contact;
 
 			if (contact != null) {
@@ -143,7 +156,7 @@ public class ManageContact implements IManageContact {
 					contact.setAccount(null);
 				}
 
-				ContactAddress contactAddress = contact.getContactAddress();
+				contactAddress = contact.getContactAddress();
 
 				if (!streetAddress.isEmpty()) {
 					contactAddress.setStreetAddress(streetAddress);
@@ -183,7 +196,7 @@ public class ManageContact implements IManageContact {
 		} finally {
 			tc.getSessionObject().close();
 		}
-		
+
 		if (contact != null) {
 			contact = (Contact) tc.getSessionObject().get(Contact.class, id);
 		}
@@ -192,18 +205,21 @@ public class ManageContact implements IManageContact {
 
 	public void deleteContact(int id) {
 
+		Contact contact = null;
+		ContactAddress contactAddress = null;
+
 		tc = new TransactionConfigurations();
 
 		try {
-			
+
 			tc.endSession();
 			tx = tc.getTransaction();
 			tc.getSessionObject();
 
-			Contact contact = (Contact) tc.getSessionObject().get(Contact.class, id);
+			contact = (Contact) tc.getSessionObject().get(Contact.class, id);
 
 			if (contact != null) {
-				ContactAddress contactAddress = contact.getContactAddress();
+				contactAddress = contact.getContactAddress();
 				if (contactAddress != null) {
 					tc.getSessionObject().delete(contactAddress);
 				}

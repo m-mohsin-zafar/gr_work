@@ -1,4 +1,4 @@
-package com.quickrescue.models;
+ package com.quickrescue.models;
 
 import java.util.List;
 
@@ -14,10 +14,11 @@ public class ManageAccount implements IManageAccount {
 
 	private TransactionConfigurations tc;
 	private Transaction tx = null;
-	private Account account = null;
 
 	public Account addAccount(String name, String emailAddress, String timeZone) {
 
+		Account account = null;
+		
 		tc = new TransactionConfigurations();
 
 		try {
@@ -29,7 +30,7 @@ public class ManageAccount implements IManageAccount {
 
 				if (!name.isEmpty() && !emailAddress.isEmpty() && !timeZone.isEmpty()) {
 
-					Account account = new Account(name, emailAddress, timeZone);
+					account = new Account(name, emailAddress, timeZone);
 
 					tx = tc.getTransaction();
 					tc.getSessionObject().save(account);
@@ -77,6 +78,8 @@ public class ManageAccount implements IManageAccount {
 
 	public Account updateAccount(int id, String name, String emailAddress, String timeZone) {
 
+		Account account = null;
+		
 		tc = new TransactionConfigurations();
 
 		try {

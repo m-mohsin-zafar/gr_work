@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.weektwo</groupId>
+	<artifactId>MyCalculator</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>MyCalculator</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-feature-pack -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.wildfly</groupId> -->
+		<!-- <artifactId>wildfly-feature-pack</artifactId> -->
+		<!-- <version>10.0.0.Beta2</version> -->
+		<!-- <type>pom</type> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-ejb-client-bom</artifactId>
+			<version>7.2.0.Final</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-jms-client-bom</artifactId>
+			<version>7.2.0.Final</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.mylogic</groupId>
+			<artifactId>MyAdditionEJB</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				D:/localrepo/MyAdditionEJB.jar
+			</systemPath>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/jboss/jboss-client -->
+		<dependency>
+			<groupId>jboss</groupId>
+			<artifactId>jboss-client</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jboss/jboss-ejb-client -->
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-ejb-client</artifactId>
+			<version>4.0.11.Final</version>
+		</dependency>
+	</dependencies>
+</project>
